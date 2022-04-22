@@ -1,0 +1,6 @@
+kubectl create deployment redisappdeployment --image=redis/alpine  --replicas=1 --dry-run=client -o yaml >  voteapp.yaml
+kubectl create deployment dbappdeployment    --image=postgres:9.4 --env=PGDATA:/var/lib/postgresql/data/pgdata,POSTGRES_USER:postgres,POSTGRES_PASSWORD:postgress  --replicas=1 --dry-run=client -o yaml >> voteapp.yaml
+kubectl create deployment resultappdeployment --image=dockersamples/examplevotingapp_result:before --replicas=1 --dry-run=client -o yaml >> voteapp.yaml
+
+---
+kubectl expose deploymant

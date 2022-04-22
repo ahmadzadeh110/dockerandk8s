@@ -1,0 +1,59 @@
+version: "3.8"
+services:
+ vote:
+  container_name: vote
+  build: ./build/vote
+  image: vote:v1
+  restart: always
+  ports:
+   - 5000:80
+  networks: 
+   - vote_net
+
+ redis:
+  container_name: redis
+  image: redis:latest
+  restart: always
+  networks:
+   - vote_net
+   - backend
+ worker:
+  container_name: worker
+  build: ./build/worker
+  image: worker:v1
+  restart:  always
+  networks:
+   - backend
+ db:
+  container_name: db
+  image: postgres
+  restart: always
+  environment:
+   POSTGRES_USER: "postgres"
+   POSTGRES_PASSWORD: "postgres"
+  volumes:
+   - postgres_content_vol:/var/lib/postgresql/data
+  networks:
+   - backend
+   - result_net 
+ result:
+  container_name: result
+  build: ./build/result
+  image: result:v1
+  restart: always
+  ports:
+   - 5001:80
+  networks:
+   - result_net
+ 
+volumes:
+ postgres_content_vol:
+  external: true
+
+networks:
+ vote_net:
+  external: true
+ result_net:
+  external: true
+ backend: 
+  external: true

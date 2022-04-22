@@ -1,0 +1,62 @@
+version: "3.8"
+services:
+ initer:
+  container_name: initer
+  build: ./build
+  image: initer:v1
+  volumes:
+   - nginx_content_vol:/web_content
+   - nginx_conf_vol:/web_config
+  restart:  always
+  
+ web:
+  image: nginx:latest
+  depends_on:
+   - db
+   - php-fpm
+  restart:  always
+  ports:
+   - 80:80
+  volumes:
+   - nginx_content_vol:/usr/share/nginx/html
+   - nginx_conf_vol:/etc/nginx/conf.d/
+  networks:
+   - nginx_php_net
+ php-fpm:
+  container_name: php-fpm
+  image: php:7.4.0-fpm-alpine 
+  depends_on:
+   - db 
+  volumes:
+   - nginx_content_vol:/usr/share/nginx/html
+  restart:  always
+  networks:
+   - nginx_php_net
+   - php_mysql_net
+ db:
+  image: mysql:latest
+  restart: always
+  environment:
+   MYSQL_ROOT_PASSWORD: 123456
+   MYSQL_DB: mydb
+   MYSQL_PASSWORD: 123456     
+  ports:
+   - 3306:3306
+  volumes:
+   - db_content_vol:/var/lib/mysql
+  networks:
+   - php_mysql_net
+
+volumes:
+ nginx_content_vol:
+  external: true
+ nginx_conf_vol:
+  external: true
+ db_content_vol:
+  external: true
+
+networks:
+ php_mysql_net:
+  external: true
+ nginx_php_net:
+  external: true

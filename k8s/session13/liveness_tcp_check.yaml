@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+ name: liveness-tcp-check
+ labels:
+  app: liveness-app3
+spec:
+ containers:
+  - name: liveness3
+    image: k8s.gcr.io/liveness
+    args:
+     - /server
+    livenessProbe: 
+     tcpSocket:
+      port: 8080
+     periodSeconds: 3
+     initialDelaySeconds: 3 

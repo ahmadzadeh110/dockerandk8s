@@ -1,0 +1,13 @@
+version: "3.7"
+services:
+ web:
+  image: fundamentalsofdocker/ch08-web:1.0
+  ports:
+   - 3000
+ db:
+  image: fundamentalsofdocker/ch08-db:1.0
+  volumes:
+   - myvol01:/var/lib/postgresql/data
+volumes:
+ myvol01:
+  external: true

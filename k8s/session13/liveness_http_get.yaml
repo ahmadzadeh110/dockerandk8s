@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+ name: liveness-http-get
+ labels:
+  app: liveness-app2
+spec:
+ containers:
+  - name: liveness2
+    image: k8s.gcr.io/liveness
+    args:
+     - /server
+    livenessProbe: 
+     httpGet:
+      path: /healthz
+      port: 8080
+      httpHeaders:
+        - name: Coustom-Header
+          value: Awesome
+     periodSeconds: 3
+     initialDelaySeconds: 3 

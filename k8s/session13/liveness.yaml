@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+ name: liveness
+ labels:
+  app: liveness-app
+spec:
+ containers:
+  - name: liveness-containner
+    image: nginx:latest
+    imagePullPolicy: IfNotPresent
+    ports:
+     - containerPort: 80
+    livenessProbe: 
+     exec:
+      command:
+       - cat
+       - /var/run/nginx.pid
+     periodSeconds: 5
+     initialDelaySeconds: 5 

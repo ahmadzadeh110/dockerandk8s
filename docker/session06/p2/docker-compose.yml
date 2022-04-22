@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+ nginx:
+  image: nginx:latest
+  ports:
+   - 80:80
+  volumes:
+   - nginx_content_vol:/usr/share/nginx/html
+   - nginx_conf_vol:/etc/nginx/conf.d/
+  restart:  always
+volumes:
+ nginx_content_vol:
+  external: true
+ nginx_conf_vol:
+  external: true
+ 

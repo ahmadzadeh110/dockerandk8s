@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: sampleapp
+ labels:
+  app: mysampleappv1
+spec:
+ replicas: 3
+ selector:
+  matchLabels: 
+   app: samapp
+ template:
+  metadata:
+   labels:
+    app: samapp
+  spec:
+   containers:
+    - name: googlesample
+      image: gcr.io/google-samples/gb-frontend:v4
+      imagePullPolicy: IfNotPresent
+      resources:
+       requests:
+        cpu: "100m"
+        memory: "1100Mi"
+      env:
+       - name: GET_HOSTS_FROM
+         value: dns
