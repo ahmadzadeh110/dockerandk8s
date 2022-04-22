@@ -1,0 +1,8 @@
+apiVersion: v1
+data:
+  family: ahmadzadeh
+  name: mojtaba
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: users

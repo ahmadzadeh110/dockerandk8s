@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx
+  name: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      volumes:
+       - name: nginx-config
+         configMap:
+          name: nginxconfig
+      containers:
+      - image: nginx:latest
+        name: nginx
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+         - name: nginx-config
+           mountPath: /etc/nginx/conf.d
+           readOnly: true
